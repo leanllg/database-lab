@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llgzone.market.dao.RemittenceMapper">
+  <resultMap id="BaseResultMap" type="com.llgzone.market.model.Remittence">
+    <id column="rid" jdbcType="INTEGER" property="rid" />
+    <result column="oid" jdbcType="INTEGER" property="oid" />
+    <result column="paymoney" jdbcType="DECIMAL" property="paymoney" />
+    <result column="paytime" jdbcType="TIMESTAMP" property="paytime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.llgzone.market.model.Remittence">
+    <result column="payid" jdbcType="LONGVARCHAR" property="payid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    rid, oid, paymoney, paytime
+  </sql>
+  <sql id="Blob_Column_List">
+    payid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from remittence
+    where rid = #{rid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from remittence
+    where rid = #{rid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.llgzone.market.model.Remittence">
+    insert into remittence (rid, oid, paymoney, 
+      paytime, payid)
+    values (#{rid,jdbcType=INTEGER}, #{oid,jdbcType=INTEGER}, #{paymoney,jdbcType=DECIMAL}, 
+      #{paytime,jdbcType=TIMESTAMP}, #{payid,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.llgzone.market.model.Remittence">
+    insert into remittence
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        rid,
+      </if>
+      <if test="oid != null">
+        oid,
+      </if>
+      <if test="paymoney != null">
+        paymoney,
+      </if>
+      <if test="paytime != null">
+        paytime,
+      </if>
+      <if test="payid != null">
+        payid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="oid != null">
+        #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="paymoney != null">
+        #{paymoney,jdbcType=DECIMAL},
+      </if>
+      <if test="paytime != null">
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payid != null">
+        #{payid,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.llgzone.market.model.Remittence">
+    update remittence
+    <set>
+      <if test="oid != null">
+        oid = #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="paymoney != null">
+        paymoney = #{paymoney,jdbcType=DECIMAL},
+      </if>
+      <if test="paytime != null">
+        paytime = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payid != null">
+        payid = #{payid,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where rid = #{rid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.llgzone.market.model.Remittence">
+    update remittence
+    set oid = #{oid,jdbcType=INTEGER},
+      paymoney = #{paymoney,jdbcType=DECIMAL},
+      paytime = #{paytime,jdbcType=TIMESTAMP},
+      payid = #{payid,jdbcType=LONGVARCHAR}
+    where rid = #{rid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.llgzone.market.model.Remittence">
+    update remittence
+    set oid = #{oid,jdbcType=INTEGER},
+      paymoney = #{paymoney,jdbcType=DECIMAL},
+      paytime = #{paytime,jdbcType=TIMESTAMP}
+    where rid = #{rid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llgzone.market.dao.GoodsMapper">
+  <resultMap id="BaseResultMap" type="com.llgzone.market.model.Goods">
+    <id column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="pay" jdbcType="DECIMAL" property="pay" />
+    <result column="discount" jdbcType="REAL" property="discount" />
+  </resultMap>
+  <resultMap id="GoodsInfo" type="com.llgzone.market.model.Goods" extends="BaseResultMap">
+    <association property="user" autoMapping="true" javaType="com.llgzone.market.model.User">
+      <id column="uid" property="uid" jdbcType="VARCHAR" />
+      <result column="userName" property="name" jdbcType="VARCHAR" />
+    </association>
+    <association property="labels" javaType="com.llgzone.market.model.Labels" autoMapping="true">
+      <id column="lid" property="lid" jdbcType="INTEGER"/>
+      <result column="lname" property="lname" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    gid, uid, name, description, img_url, pay, discount
+  </sql>
+  <select id="selectByParams" parameterType="java.util.HashMap" resultMap="GoodsInfo">
+    select
+      g.gid, g.name, u.name as userName, u.uid, labels.lid, 
+      g.description, img_url, pay, discount, labels.lname
+    from goods g, gl, labels, users u
+    <where>
+      <if test="gid != null">
+        g.gid = #{gid}
+      </if>
+      <if test="uid != null">
+        and g.uid=#{uid}
+        and u.uid = g.uid
+      </if>
+      <if test="name != null">
+        and g.name=like'%${name}%'
+      </if>
+      <if test="pay1 != null and pay2 != null">
+        and (pay >= pay1 and pay &lt;= pay2)
+      </if>
+      <if test="discount1 != null and discount2 != null">
+        and (discount >= discount1 and pay &lt;= discount2)
+      </if>
+      <if test="lid != null">
+        and gl.gid = goods.gid
+        and gl.lid = labels.lid
+        and labels.lid = #{lid}
+      </if>
+    </where>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where gid = #{gid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods
+    where gid = #{gid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.llgzone.market.model.Goods">
+    insert into goods (gid, uid, name, 
+      description, img_url, pay, 
+      discount)
+    values (#{gid,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, #{pay,jdbcType=DECIMAL}, 
+      #{discount,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.llgzone.market.model.Goods">
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gid != null">
+        gid,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="imgUrl != null">
+        img_url,
+      </if>
+      <if test="pay != null">
+        pay,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gid != null">
+        #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null">
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pay != null">
+        #{pay,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.llgzone.market.model.Goods">
+    update goods
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null">
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pay != null">
+        pay = #{pay,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=REAL},
+      </if>
+    </set>
+    where gid = #{gid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.llgzone.market.model.Goods">
+    update goods
+    set uid = #{uid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      pay = #{pay,jdbcType=DECIMAL},
+      discount = #{discount,jdbcType=REAL}
+    where gid = #{gid,jdbcType=INTEGER}
+  </update>
+</mapper>

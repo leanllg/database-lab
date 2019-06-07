@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llgzone.market.dao.LabelsMapper">
+  <resultMap id="BaseResultMap" type="com.llgzone.market.model.Labels">
+    <id column="lid" jdbcType="INTEGER" property="lid" />
+    <result column="lname" jdbcType="VARCHAR" property="lname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    lid, lname
+  </sql>
+  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from labels
+  </select>
+  <select id="selectByName" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from labels
+    where lname = #{lname, jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from labels
+    where lid = #{lid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from labels
+    where lid = #{lid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.llgzone.market.model.Labels">
+    insert into labels (lid, lname)
+    values (#{lid,jdbcType=INTEGER}, #{lname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertLabel" parameterType="com.llgzone.market.model.Labels">
+    insert into labels (lname)
+    values (#{lname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.llgzone.market.model.Labels">
+    insert into labels
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lid != null">
+        lid,
+      </if>
+      <if test="lname != null">
+        lname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lid != null">
+        #{lid,jdbcType=INTEGER},
+      </if>
+      <if test="lname != null">
+        #{lname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.llgzone.market.model.Labels">
+    update labels
+    <set>
+      <if test="lname != null">
+        lname = #{lname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where lid = #{lid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.llgzone.market.model.Labels">
+    update labels
+    set lname = #{lname,jdbcType=VARCHAR}
+    where lid = #{lid,jdbcType=INTEGER}
+  </update>
+</mapper>

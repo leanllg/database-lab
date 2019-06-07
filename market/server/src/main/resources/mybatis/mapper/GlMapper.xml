@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llgzone.market.dao.GlMapper">
+  <resultMap id="BaseResultMap" type="com.llgzone.market.model.GlKey">
+    <id column="gid" jdbcType="INTEGER" property="gid" />
+    <id column="lid" jdbcType="INTEGER" property="lid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.llgzone.market.model.GlKey">
+    delete from gl
+    where gid = #{gid,jdbcType=INTEGER}
+      and lid = #{lid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.llgzone.market.model.GlKey">
+    insert into gl (gid, lid)
+    values (#{gid,jdbcType=INTEGER}, #{lid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.llgzone.market.model.GlKey">
+    insert into gl
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gid != null">
+        gid,
+      </if>
+      <if test="lid != null">
+        lid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gid != null">
+        #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="lid != null">
+        #{lid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>
