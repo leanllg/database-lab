@@ -16,11 +16,13 @@ import com.llgzone.market.model.Goods;
 import com.llgzone.market.model.Labels;
 import com.llgzone.market.model.GlKey;
 
+
 @Service
 public class GoodsService {
   @Autowired GoodsMapper goodsMapper;
   @Autowired LabelsMapper labelsMapper;
   @Autowired GlMapper glMapper;
+
 
   // 获得商品信息包括标签
   public List<Goods> getGoods(HashMap<String, Object> params) {

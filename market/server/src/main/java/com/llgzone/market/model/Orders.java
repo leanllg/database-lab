@@ -7,16 +7,16 @@ public class Orders {
 
     private String uid;
 
-    private Integer gid;
+    private String mid;
 
     private Date buytime;
 
     private Integer state;
 
-    public Orders(Integer oid, String uid, Integer gid, Date buytime, Integer state) {
+    public Orders(Integer oid, String uid, String mid, Date buytime, Integer state) {
         this.oid = oid;
         this.uid = uid;
-        this.gid = gid;
+        this.mid = mid;
         this.buytime = buytime;
         this.state = state;
     }
@@ -41,12 +41,12 @@ public class Orders {
         this.uid = uid == null ? null : uid.trim();
     }
 
-    public Integer getGid() {
-        return gid;
+    public String getMid() {
+        return mid;
     }
 
-    public void setGid(Integer gid) {
-        this.gid = gid;
+    public void setMid(String mid) {
+        this.mid = mid == null ? null : mid.trim();
     }
 
     public Date getBuytime() {

@@ -30,10 +30,20 @@ public class UserController {
   public Res login(@RequestBody User user) {
     String userName = user.getName();
     User userEntity = userService.getUserByName(userName);
+    if (userEntity == null) {
+      HashMap<String, Object> error = new HashMap<>();
+      error.put("code", 400);
+      return new Res("不存在此用户", null, error);
+    }
+    if (userEntity.getType() != 0) {
+      HashMap<String, Object> error = new HashMap<>();
+      error.put("code", 400);
+      return new Res("用户权限不对", null, error);
+    }
     String encode = userEntity.getPassword();
     String password = user.getPassword();
-  
-    if (userEntity == null || !userService.isRightPassword(password, encode)) {
+    logger.info(userName, encode, password);
+    if (!userService.isRightPassword(password, encode)) {
       logger.info("password: " + password + " encode: " + encode);
       HashMap<String, Object> error = new HashMap<>();
       error.put("code", 400);
@@ -88,7 +98,6 @@ public class UserController {
     } catch(Exception e) {
       String errMsg = e.getMessage();
       logger.info(errMsg);
-      e.printStackTrace();
       HashMap<String, Object> error = new HashMap<>();
       error.put("code", 400);
       return new Res(errMsg, null, error);

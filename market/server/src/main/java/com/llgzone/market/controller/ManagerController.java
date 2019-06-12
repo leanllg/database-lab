@@ -30,10 +30,21 @@ public class ManagerController {
   public Res login(@RequestBody User user) {
     String userName = user.getName();
     User userEntity = userService.getUserByName(userName);
+    if (userEntity == null) {
+      HashMap<String, Object> error = new HashMap<>();
+      error.put("code", 400);
+      return new Res("不存在此用户", null, error);
+    }
+    if (userEntity.getType() != 1) {
+      HashMap<String, Object> error = new HashMap<>();
+      error.put("code", 400);
+      return new Res("用户权限不对", null, error);
+    }
+    logger.info(userEntity.getType().toString());
     String encode = userEntity.getPassword();
     String password = user.getPassword();
   
-    if (userEntity == null || !userService.isRightPassword(password, encode)) {
+    if (!userService.isRightPassword(password, encode)) {
       logger.info("password: " + password + " encode: " + encode);
       HashMap<String, Object> error = new HashMap<>();
       error.put("code", 400);

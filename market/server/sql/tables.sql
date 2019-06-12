@@ -49,7 +49,7 @@ create table if not exists orders (
   state int default 0 comment '0: 未付款, 1: 已付款, 2: 运输中, 3: 已收货, 4: 已完成, 5: 退款中, 6: 已退款, 7: 已取消',
   foreign key (uid) references users(uid)
   on update cascade on delete cascade,
-  foreign key (mid) references usres(uid)
+  foreign key (mid) references users(uid)
   on update cascade on delete cascade
 ) charset utf8mb4;
 

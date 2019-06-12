@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llgzone.market.dao.OrderDetailMapper">
+  <resultMap id="BaseResultMap" type="com.llgzone.market.model.OrderDetail">
+    <constructor>
+      <idArg column="oid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="gid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="gname" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="discount" javaType="java.lang.Float" jdbcType="REAL" />
+      <arg column="goods_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="pay" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.llgzone.market.model.OrderDetail">
+    <constructor>
+      <idArg column="oid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="gid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="gname" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="discount" javaType="java.lang.Float" jdbcType="REAL" />
+      <arg column="goods_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="pay" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="img_url" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    oid, gid, gname, discount, goods_num, pay
+  </sql>
+  <sql id="Blob_Column_List">
+    img_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.llgzone.market.model.OrderDetailKey" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from order_detail
+    where oid = #{oid,jdbcType=INTEGER}
+      and gid = #{gid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByOid" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from order_detail
+    where oid = #{oid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.llgzone.market.model.OrderDetailKey">
+    delete from order_detail
+    where oid = #{oid,jdbcType=INTEGER}
+      and gid = #{gid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.llgzone.market.model.OrderDetail">
+    insert into order_detail (oid, gid, gname, 
+      discount, goods_num, pay, 
+      img_url)
+    values (#{oid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, #{gname,jdbcType=VARCHAR}, 
+      #{discount,jdbcType=REAL}, #{goodsNum,jdbcType=INTEGER}, #{pay,jdbcType=DECIMAL}, 
+      #{imgUrl,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.llgzone.market.model.OrderDetail">
+    insert into order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="oid != null">
+        oid,
+      </if>
+      <if test="gid != null">
+        gid,
+      </if>
+      <if test="gname != null">
+        gname,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="goodsNum != null">
+        goods_num,
+      </if>
+      <if test="pay != null">
+        pay,
+      </if>
+      <if test="imgUrl != null">
+        img_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="oid != null">
+        #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="gid != null">
+        #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="gname != null">
+        #{gname,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=REAL},
+      </if>
+      <if test="goodsNum != null">
+        #{goodsNum,jdbcType=INTEGER},
+      </if>
+      <if test="pay != null">
+        #{pay,jdbcType=DECIMAL},
+      </if>
+      <if test="imgUrl != null">
+        #{imgUrl,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.llgzone.market.model.OrderDetail">
+    update order_detail
+    <set>
+      <if test="gname != null">
+        gname = #{gname,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=REAL},
+      </if>
+      <if test="goodsNum != null">
+        goods_num = #{goodsNum,jdbcType=INTEGER},
+      </if>
+      <if test="pay != null">
+        pay = #{pay,jdbcType=DECIMAL},
+      </if>
+      <if test="imgUrl != null">
+        img_url = #{imgUrl,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where oid = #{oid,jdbcType=INTEGER}
+      and gid = #{gid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.llgzone.market.model.OrderDetail">
+    update order_detail
+    set gname = #{gname,jdbcType=VARCHAR},
+      discount = #{discount,jdbcType=REAL},
+      goods_num = #{goodsNum,jdbcType=INTEGER},
+      pay = #{pay,jdbcType=DECIMAL},
+      img_url = #{imgUrl,jdbcType=LONGVARCHAR}
+    where oid = #{oid,jdbcType=INTEGER}
+      and gid = #{gid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.llgzone.market.model.OrderDetail">
+    update order_detail
+    set gname = #{gname,jdbcType=VARCHAR},
+      discount = #{discount,jdbcType=REAL},
+      goods_num = #{goodsNum,jdbcType=INTEGER},
+      pay = #{pay,jdbcType=DECIMAL}
+    where oid = #{oid,jdbcType=INTEGER}
+      and gid = #{gid,jdbcType=INTEGER}
+  </update>
+</mapper>

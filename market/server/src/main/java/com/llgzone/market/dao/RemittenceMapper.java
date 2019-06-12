@@ -16,4 +16,6 @@ public interface RemittenceMapper {
     int updateByPrimaryKeyWithBLOBs(Remittence record);
 
     int updateByPrimaryKey(Remittence record);
+    
+    Remittence selectByOid(Integer oid);
 }

@@ -30,20 +30,23 @@
     from goods g, gl, labels, users u
     <where>
       <if test="gid != null">
-        g.gid = #{gid}
+        g.gid = #{gid, jdbcType=INTEGER}
       </if>
       <if test="uid != null">
-        and g.uid=#{uid}
+        and g.uid=#{uid, jdbcType=VARCHAR}
         and u.uid = g.uid
       </if>
       <if test="name != null">
         and g.name=like'%${name}%'
       </if>
-      <if test="pay1 != null and pay2 != null">
-        and (pay >= pay1 and pay &lt;= pay2)
+      <if test="pay1 != null">
+        and pay >= #{pay1, jdbcType=DECIMAL}
+      </if>
+      <if test="pay2 != null">
+        and pay &lt;= #{pay2, jdbcType=DECIMAL}
       </if>
       <if test="discount1 != null and discount2 != null">
-        and (discount >= discount1 and pay &lt;= discount2)
+        and (discount >= #{discount1, jdbcType=REAL} and discount &lt;= #{discount2, jdbcType=REAL})
       </if>
       <if test="lid != null">
         and gl.gid = goods.gid
