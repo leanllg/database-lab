@@ -12,12 +12,9 @@
   </resultMap>
   <resultMap id="GoodsInfo" type="com.llgzone.market.model.Goods" extends="BaseResultMap">
     <association property="user" autoMapping="true" javaType="com.llgzone.market.model.User">
-      <id column="uid" property="uid" jdbcType="VARCHAR" />
+      <id column="userid" property="uid" jdbcType="VARCHAR" />
       <result column="userName" property="name" jdbcType="VARCHAR" />
-    </association>
-    <association property="labels" javaType="com.llgzone.market.model.Labels" autoMapping="true">
-      <id column="lid" property="lid" jdbcType="INTEGER"/>
-      <result column="lname" property="lname" jdbcType="VARCHAR"/>
+      <result column="userdes" property="description" jdbcType="VARCHAR" />
     </association>
   </resultMap>
   <sql id="Base_Column_List">
@@ -25,19 +22,19 @@
   </sql>
   <select id="selectByParams" parameterType="java.util.HashMap" resultMap="GoodsInfo">
     select
-      g.gid, g.name, u.name as userName, u.uid, labels.lid, 
-      g.description, img_url, pay, discount, labels.lname
-    from goods g, gl, labels, users u
+      g.gid, g.name, u.name as userName, u.uid as userid, g.uid,
+      g.description, img_url, pay, discount
+    from goods g, users u
     <where>
+        u.uid = g.uid
       <if test="gid != null">
-        g.gid = #{gid, jdbcType=INTEGER}
+        and g.gid = #{gid, jdbcType=INTEGER}
       </if>
       <if test="uid != null">
         and g.uid=#{uid, jdbcType=VARCHAR}
-        and u.uid = g.uid
       </if>
       <if test="name != null">
-        and g.name=like'%${name}%'
+        and g.name like'%${name}%'
       </if>
       <if test="pay1 != null">
         and pay >= #{pay1, jdbcType=DECIMAL}
@@ -47,11 +44,6 @@
       </if>
       <if test="discount1 != null and discount2 != null">
         and (discount >= #{discount1, jdbcType=REAL} and discount &lt;= #{discount2, jdbcType=REAL})
-      </if>
-      <if test="lid != null">
-        and gl.gid = goods.gid
-        and gl.lid = labels.lid
-        and labels.lid = #{lid}
       </if>
     </where>
   </select>
@@ -73,7 +65,7 @@
       #{description,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, #{pay,jdbcType=DECIMAL}, 
       #{discount,jdbcType=REAL})
   </insert>
-  <insert id="insertSelective" parameterType="com.llgzone.market.model.Goods">
+  <insert id="insertSelective" parameterType="com.llgzone.market.model.Goods" useGeneratedKeys="true" keyProperty="gid">
     insert into goods
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="gid != null">

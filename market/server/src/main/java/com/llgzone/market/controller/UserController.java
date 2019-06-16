@@ -30,6 +30,7 @@ public class UserController {
   public Res login(@RequestBody User user) {
     String userName = user.getName();
     User userEntity = userService.getUserByName(userName);
+    logger.info(userName);
     if (userEntity == null) {
       HashMap<String, Object> error = new HashMap<>();
       error.put("code", 400);

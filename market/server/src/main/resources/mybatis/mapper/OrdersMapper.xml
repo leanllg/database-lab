@@ -41,7 +41,7 @@
     values (#{oid,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{mid,jdbcType=VARCHAR}, 
       #{buytime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.llgzone.market.model.Orders">
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="oid" parameterType="com.llgzone.market.model.Orders">
     insert into orders
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="oid != null">

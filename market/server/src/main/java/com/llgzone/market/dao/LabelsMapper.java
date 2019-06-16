@@ -1,5 +1,6 @@
 package com.llgzone.market.dao;
 
+import com.llgzone.market.model.GlKey;
 import com.llgzone.market.model.Labels;
 import java.util.List;
 
@@ -10,11 +11,13 @@ public interface LabelsMapper {
 
     int insertSelective(Labels record);
 
-    int insertLabel(String lname);
+    int insertLabel(List<String> lname);
 
     Labels selectByPrimaryKey(Integer lid);
 
     List<Labels> selectAll();
+
+    List<Labels> selectByGl(GlKey gl);
 
     Labels selectByName(String lname);
 

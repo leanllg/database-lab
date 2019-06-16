@@ -1,6 +1,7 @@
 package com.llgzone.market.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Goods {
     private Integer gid;
@@ -19,7 +20,7 @@ public class Goods {
 
     private User user;
 
-    private Labels labels;
+    private List<Labels> labels;
 
     public Goods(Integer gid, String uid, String name, String description, String imgUrl, BigDecimal pay, Float discount) {
         this.gid = gid;
@@ -43,11 +44,11 @@ public class Goods {
         this.user = user;
     }
 
-    public Labels getLabels() {
+    public List<Labels> getLabels() {
         return labels;
     }
 
-    public void setLabels(Labels labels) {
+    public void setLabels(List<Labels> labels) {
         this.labels = labels;
     }
 

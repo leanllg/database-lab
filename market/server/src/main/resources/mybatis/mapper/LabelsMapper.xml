@@ -13,7 +13,19 @@
     <include refid="Base_Column_List" />
     from labels
   </select>
-  <select id="selectByName" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByGl" parameterType="com.llgzone.market.model.GlKey" resultMap="BaseResultMap">
+      select 
+        labels.lid, labels.lname
+      from labels, gl
+      <where>
+        gl.gid=#{gid, jdbcType=INTEGER}
+        and labels.lid=gl.lid
+        <if test="lid!=null">
+          and gl.lid != #{lid, jdbcType=INTEGER}
+        </if>
+      </where>
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from labels
@@ -34,8 +46,8 @@
     values (#{lid,jdbcType=INTEGER}, #{lname,jdbcType=VARCHAR})
   </insert>
   <insert id="insertLabel" parameterType="com.llgzone.market.model.Labels">
-    insert into labels (lname)
-    values (#{lname,jdbcType=VARCHAR})
+    insert ignore into labels (lname)
+    values <foreach collection="list" item="lname" index="index" separator=",">(#{lname})</foreach>
   </insert>
   <insert id="insertSelective" parameterType="com.llgzone.market.model.Labels">
     insert into labels

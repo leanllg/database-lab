@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import { Router } from "@reach/router"
+import { Provider } from "react-redux"
+import { createStore, compose, applyMiddleware } from "redux"
+import reduxThunk from "redux-thunk"
+import rootReducer from "./reducers"
+import "./App.css"
+import Account from "./pages/account"
+import Manager from "./pages/manager"
+import User from "./pages/user"
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Provider
+      store={createStore(
+        rootReducer,
+        composeEnhancers(applyMiddleware(reduxThunk))
+      )}
+    >
+      <Router>
+        <Account path="/account" />
+        <Manager path="/manager/*" />
+        <User path="/user/*" />
+      </Router>
+    </Provider>
+  )
 }
 
-export default App;
+export default App

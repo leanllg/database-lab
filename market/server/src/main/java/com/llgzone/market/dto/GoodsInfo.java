@@ -1,6 +1,7 @@
 package com.llgzone.market.dto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class GoodsInfo {
   private Integer gid;
@@ -17,11 +18,11 @@ public class GoodsInfo {
 
   private Float discount;
 
-  private Integer lid;
+  private List<Integer> lid;
 
   public GoodsInfo(
     Integer gid, String uid, String name, String description, 
-    String imgUrl, BigDecimal pay, Float discount, Integer lid
+    String imgUrl, BigDecimal pay, Float discount, List<Integer> lid
     ) {
       this.gid = gid;
       this.uid = uid;
@@ -37,11 +38,11 @@ public class GoodsInfo {
       super();
   }
 
-  public Integer getLid() {
+  public List<Integer> getLid() {
       return lid;
   }
 
-  public void setLid(Integer lid) {
+  public void setLid(List<Integer> lid) {
     this.lid = lid;
   }
 

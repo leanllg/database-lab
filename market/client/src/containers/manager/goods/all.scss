@@ -1,0 +1,10 @@
+.all-goods {
+  &-container {
+    display: flex;
+    flex-wrap: wrap;
+
+    .ant-card {
+      margin: 5px;
+    }
+  }
+}

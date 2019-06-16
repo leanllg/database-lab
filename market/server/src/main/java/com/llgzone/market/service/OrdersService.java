@@ -24,6 +24,7 @@ public class OrdersService {
   public void buyGoods(Orders order, List<OrderDetail> orderDetails) {
     ordersMapper.insertSelective(order);
     for (OrderDetail oDetail : orderDetails) {
+      oDetail.setOid(order.getOid());
       orderDetailMapper.insertSelective(oDetail);
     }
   }

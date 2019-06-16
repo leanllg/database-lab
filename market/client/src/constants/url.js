@@ -1,0 +1,2 @@
+const host = ""
+export { host }
