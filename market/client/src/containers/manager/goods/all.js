@@ -37,7 +37,8 @@ class AllGoods extends React.Component {
 function mapStateToProps(state) {
   const profile = state.manager.profile
   return {
-    uid: profile.uid
+    uid: profile.uid,
+    userName: profile.name
   }
 }
 

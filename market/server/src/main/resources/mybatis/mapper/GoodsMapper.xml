@@ -45,6 +45,11 @@
       <if test="discount1 != null and discount2 != null">
         and (discount >= #{discount1, jdbcType=REAL} and discount &lt;= #{discount2, jdbcType=REAL})
       </if>
+      <if test="lid != null">
+        and g.gid in (select gl.gid from goods, gl
+        where gl.gid = goods.gid
+        and gl.lid = #{lid, jdbcType=INTEGER})
+      </if>
     </where>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

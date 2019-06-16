@@ -11,10 +11,11 @@ class SearchForm extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       for (let key in values) {
-        if (values[key] === undefined) {
+        if (values[key] === undefined || values[key] === "") {
           delete values[key]
         }
       }
+      console.log(values)
       if (!err) {
         this.props.onClick(values)
       }

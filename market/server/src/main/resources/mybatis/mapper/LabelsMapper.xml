@@ -20,9 +20,6 @@
       <where>
         gl.gid=#{gid, jdbcType=INTEGER}
         and labels.lid=gl.lid
-        <if test="lid!=null">
-          and gl.lid != #{lid, jdbcType=INTEGER}
-        </if>
       </where>
   </select>
   <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">

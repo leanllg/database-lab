@@ -16,9 +16,8 @@ class AllGoods extends React.Component {
 
   componentDidMount() {
     const token = localStorage.getItem("token")
-    const { userName } = this.props
     request("/goods", {
-      param: { token, userName },
+      param: { token },
       onsuccess: json => {
         this.setState({ goodsList: json.data.goods })
       }

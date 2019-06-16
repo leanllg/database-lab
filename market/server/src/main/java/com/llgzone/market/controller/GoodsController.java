@@ -50,13 +50,25 @@ public class GoodsController {
     Labels label = null;
     if (labelName != null) {
       label = goodsService.getLabelByName(labelName);
+      if (label != null) {
+        params.put("lid", label.getLid());
+      } else {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("code", 200);
+        data.put("goods", new ArrayList<>());
+        return new Res("查询成功", data, null);
+      }
     }
-    if (label != null) {
-      params.put("lid", label.getLid());
-    }
-    User user = userService.getUserByName(userName);
-    if (user != null) {
-      params.put("uid", user.getUid());
+    if (userName != null) {
+      User user = userService.getUserByName(userName);
+      if (user != null) {
+        params.put("uid", user.getUid());
+      } else {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("code", 200);
+        data.put("goods", new ArrayList<>());
+        return new Res("查询成功", data, null);
+      }
     }
     String[] discounts = {"0", "1"};
     String[] pays = {"0", null};
